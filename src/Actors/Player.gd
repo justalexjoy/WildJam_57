@@ -9,6 +9,7 @@ const MAX_DASH_NUMBER = 2
 # var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @onready var sprite = $AnimatedSprite2D
+@onready var state_machine = $PlayerStateMachine
 
 var _state = CharacterState.STAY
 var _dashCount = 0
@@ -24,7 +25,7 @@ func _physics_process(delta):
 	get_state()
 	get_input()
 
-	var force = 0
+	var force = state_machine.get_speed
 	if is_on_floor():
 		force = SPEED
 	else:
@@ -69,13 +70,13 @@ func get_state():
 		_state = CharacterState.STAY
 
 func animate_state():
-	match _state:
-		CharacterState.JUMP:
-			sprite.play("jump")
-		CharacterState.WALK:
-			sprite.play("run")
-		CharacterState.STAY:
-			sprite.play("idle")
+#	match _state:
+#		CharacterState.JUMP:
+#			sprite.play("jump")
+#		CharacterState.WALK:
+#			sprite.play("run")
+#		CharacterState.STAY:
+#			sprite.play("idle")
 
 	sprite.flip_h = _direction < 0
 

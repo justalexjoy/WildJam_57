@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://c373ejgniggtp"]
+[gd_scene load_steps=5 format=3 uid="uid://dsq25lwtae7l"]
 
 [ext_resource type="Script" path="res://src/Main/Game.gd" id="1_iki3e"]
 [ext_resource type="PackedScene" uid="uid://dmdqxfmh1ad7" path="res://src/Level/Level.tscn" id="2_4j125"]
-[ext_resource type="PackedScene" uid="uid://bg0kdmun24hhy" path="res://src/Actors/Player.tscn" id="3_2dfo3"]
+[ext_resource type="PackedScene" uid="uid://3v8vl4x5uo0x" path="res://src/Actors/Player.tscn" id="3_ygj57"]
+[ext_resource type="PackedScene" uid="uid://dt1nhsxv5aj7b" path="res://src/Actors/GoblinEnemy.tscn" id="4_vu6id"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_iki3e")
@@ -12,5 +13,8 @@ script = ExtResource("1_iki3e")
 [node name="Level" parent="." instance=ExtResource("2_4j125")]
 position = Vector2(227, 176)
 
-[node name="Player" parent="." instance=ExtResource("3_2dfo3")]
-position = Vector2(142, 97)
+[node name="Player" parent="." instance=ExtResource("3_ygj57")]
+position = Vector2(120, 152)
+
+[node name="GoblinEnemy" parent="." instance=ExtResource("4_vu6id")]
+position = Vector2(259, 184)
