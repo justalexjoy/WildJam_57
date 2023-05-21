@@ -1,0 +1,87 @@
+[gd_scene load_steps=8 format=3 uid="uid://bhcmvae8rnuuc"]
+
+[ext_resource type="Script" path="res://UI/GameOverLayer.gd" id="1_wsl5i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gvtcb"]
+bg_color = Color(0.270588, 0.270588, 0.270588, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.129412, 0.129412, 0.129412, 1)
+corner_radius_top_left = 36
+corner_radius_top_right = 36
+corner_radius_bottom_right = 36
+
+[sub_resource type="LabelSettings" id="LabelSettings_y6kov"]
+font_size = 36
+font_color = Color(1, 0.678431, 0.678431, 1)
+
+[sub_resource type="SystemFont" id="SystemFont_0hcg8"]
+
+[sub_resource type="Theme" id="Theme_5su0q"]
+default_font = SubResource("SystemFont_0hcg8")
+default_font_size = 32
+
+[sub_resource type="SystemFont" id="SystemFont_2o0cf"]
+
+[sub_resource type="Theme" id="Theme_l7iyt"]
+default_font = SubResource("SystemFont_2o0cf")
+default_font_size = 32
+
+[node name="GameOverLayer" type="CanvasLayer"]
+script = ExtResource("1_wsl5i")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = -1
+anchor_left = -0.245
+anchor_top = -0.278
+anchor_right = 0.5
+anchor_bottom = 0.576
+offset_left = 291.0
+offset_top = 264.88
+offset_right = 5.0
+offset_bottom = 0.0399666
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gvtcb")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="CenterContainer" type="CenterContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Rows" type="VBoxContainer" parent="PanelContainer/MarginContainer/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 240
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/CenterContainer/Rows"]
+layout_mode = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_y6kov")
+horizontal_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="PanelContainer/MarginContainer/CenterContainer/Rows"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/CenterContainer/Rows/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 56
+
+[node name="RestartButton" type="Button" parent="PanelContainer/MarginContainer/CenterContainer/Rows/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_5su0q")
+text = "   Restart   "
+
+[node name="QuitButton" type="Button" parent="PanelContainer/MarginContainer/CenterContainer/Rows/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_l7iyt")
+text = "Quit"
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/CenterContainer/Rows/CenterContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/CenterContainer/Rows/CenterContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

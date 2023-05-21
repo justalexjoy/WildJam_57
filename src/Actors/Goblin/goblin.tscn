@@ -1,10 +1,11 @@
-[gd_scene load_steps=30 format=3 uid="uid://ccigl2u0jm8eb"]
+[gd_scene load_steps=31 format=3 uid="uid://crrabbc6tu3s3"]
 
-[ext_resource type="Script" path="res://Goblin.gd" id="1_iastd"]
+[ext_resource type="Script" path="res://src/Actors/Goblin/Goblin.gd" id="1_iastd"]
 [ext_resource type="Texture2D" uid="uid://4w4qvi1jte2u" path="res://assets/Enemies/Goblin/Attack.png" id="2_cq683"]
-[ext_resource type="PackedScene" uid="uid://bdm3l8j8wu31g" path="res://knife.tscn" id="2_lac2j"]
+[ext_resource type="PackedScene" uid="uid://q1y06p2fhkni" path="res://src/Actors/Goblin/knife.tscn" id="2_lac2j"]
 [ext_resource type="Texture2D" uid="uid://c2voud0y3d24f" path="res://assets/Enemies/Goblin/Run.png" id="2_u5uuq"]
 [ext_resource type="Texture2D" uid="uid://c655aumt2wthl" path="res://assets/Enemies/Goblin/Idle.png" id="3_8usah"]
+[ext_resource type="Script" path="res://src/Actors/Damageable.gd" id="6_ww7qd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qw2r7"]
 size = Vector2(20, 35)
@@ -174,6 +175,7 @@ radius = 69.029
 radius = 116.004
 
 [node name="Goblin" type="CharacterBody2D"]
+collision_layer = 4
 script = ExtResource("1_iastd")
 knife_scene = ExtResource("2_lac2j")
 
@@ -187,11 +189,15 @@ animation = &"ATTACK"
 autoplay = "WALK"
 
 [node name="Detector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
 
 [node name="DetectorShape" type="CollisionShape2D" parent="Detector"]
 shape = SubResource("CircleShape2D_xabjc")
 
 [node name="UnDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
 
 [node name="UnDetectorShape" type="CollisionShape2D" parent="UnDetector"]
 shape = SubResource("CircleShape2D_w4yqu")
@@ -199,6 +205,9 @@ shape = SubResource("CircleShape2D_w4yqu")
 [node name="Cooldown" type="Timer" parent="."]
 wait_time = 0.7
 one_shot = true
+
+[node name="Damageable" type="Node" parent="."]
+script = ExtResource("6_ww7qd")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Detector" to="." method="_on_detector_body_entered"]

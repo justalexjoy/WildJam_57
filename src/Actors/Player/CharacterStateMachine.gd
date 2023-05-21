@@ -1,5 +1,5 @@
 extends Node
-class_name PlayerStateMachine
+class_name CharacterStateMachine
 
 @export var player: CharacterBody2D
 @export var animation_tree: AnimationTree
@@ -15,6 +15,10 @@ func _ready():
 			child.player = player
 			
 			child.playback = animation_tree["parameters/playback"]
+			
+			#Connect to signals
+			
+			child.connect("interrupt_state", on_state_interrupt)
 			
 		else:
 			assert("Wrong child")
@@ -39,3 +43,6 @@ func swich_states(new_state: State):
 	state = new_state
 	
 	state.on_enter()
+
+func on_state_interrupt(new_state: State):
+	swich_states(new_state)

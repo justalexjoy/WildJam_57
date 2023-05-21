@@ -5,11 +5,16 @@ extends CharacterBody2D
 @export var right_corner : float = 50
 @export var left_corner : float = 50
 
+@onready var body_sprite: AnimatedSprite2D = $AnimatedSprite2D
+
 var righttrue_leftfalse : bool = true
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var state = WALK
 var kurok = 0
 var kurok2 = true
+
+var direction = 1
+
 enum {
 	WALK,
 	IDLE,
@@ -20,38 +25,39 @@ enum {
 func _ready():
 	right_corner = global_position.x + right_corner
 	left_corner = global_position.x - left_corner
-
-
+	
 func _physics_process(delta):
-	if global_position.x > right_corner:
-		righttrue_leftfalse = false
-	if global_position.x < left_corner:
-		righttrue_leftfalse = true
-		
+
+	var is_at_right_corner = global_position.x > right_corner
+	var is_at_left_corner = global_position.x < left_corner
+	
+	if is_at_right_corner:
+		direction = 1
+	elif is_at_left_corner:
+		direction = -1
+
+#	if is_on_wall():
+#		direction = -1 * direction
 
 	if not is_on_floor():
 		velocity.y += gravity * delta
 
 	match state:
 		IDLE:
-			$AnimatedSprite2D.animation = "IDLE"
+			body_sprite.animation = "IDLE"
 		WALK:
 			
-			$AnimatedSprite2D.animation = "WALK"
+			body_sprite.animation = "WALK"
 
-			if righttrue_leftfalse == true:
-				global_position.x += goblin_speed * delta
-				$AnimatedSprite2D.flip_h = false
-			if righttrue_leftfalse == false:
-				global_position.x -= goblin_speed * delta
-				$AnimatedSprite2D.flip_h = true
-			
-			
+			if direction != 0:
+				global_position.x -= direction * goblin_speed * delta
+				body_sprite.flip_h = direction > 0 
+				
+		
 		ATTACK_MODE:
-			if global_position.x > get_tree().get_root().get_node("Game").get_node("Player").get("global_position").x:
-				$AnimatedSprite2D.flip_h = true
-			if global_position.x < get_tree().get_root().get_node("Game").get_node("Player").get("global_position").x:
-				$AnimatedSprite2D.flip_h = false
+			var player = get_tree().get_root().get_node("Game").get_node("Player")
+			
+			$AnimatedSprite2D.flip_h = global_position.x > player.get("global_position").x
 			$AnimatedSprite2D.animation = "ATTACK_MODE"
 			if $Cooldown.is_stopped():
 				$Cooldown.start(2)
@@ -71,16 +77,16 @@ func throw_knife():
 	var bullet: Node2D = knife_scene.instantiate()
 	get_tree().current_scene.add_child(bullet)
 	bullet.global_position = global_position
-	bullet.rotation = (bullet.position - get_tree().get_root().get_node("Game").get_node("Player").get("global_position")).angle() + PI
-	if global_position.x > get_tree().get_root().get_node("Game").get_node("Player").get("global_position").x:
+	
+	var player = get_tree().get_root().get_node("Game").get_node("Player")
+	
+	bullet.rotation = (bullet.position - player.get("global_position")).angle() + PI
+	if global_position.x > player.get("global_position").x:
 			bullet.scale.x = bullet.scale.x
 			bullet.scale.y = -bullet.scale.y
-	if global_position.x < get_tree().get_root().get_node("Game").get_node("Player").get("global_position").x:
+	if global_position.x < player.get("global_position").x:
 			bullet.scale.x = bullet.scale.x
 
-	
-	
-	
 #	if is_moving_left == false:
 #		bullet.global_rotation = PI
 

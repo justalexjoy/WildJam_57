@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dsq25lwtae7l"]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://src/Main/Game.gd" id="1_iki3e"]
 [ext_resource type="PackedScene" uid="uid://dmdqxfmh1ad7" path="res://src/Level/Level.tscn" id="2_4j125"]
-[ext_resource type="PackedScene" uid="uid://3v8vl4x5uo0x" path="res://src/Actors/Player.tscn" id="3_ygj57"]
-[ext_resource type="PackedScene" uid="uid://dt1nhsxv5aj7b" path="res://src/Actors/GoblinEnemy.tscn" id="4_vu6id"]
+[ext_resource type="PackedScene" uid="uid://c6tjs8vffm4vu" path="res://src/Actors/Player/Player.tscn" id="3_ygj57"]
+[ext_resource type="PackedScene" uid="uid://dt1nhsxv5aj7b" path="res://src/Actors/GoblinEnemy/GoblinEnemy.tscn" id="4_vu6id"]
+[ext_resource type="PackedScene" uid="uid://crrabbc6tu3s3" path="res://src/Actors/Goblin/goblin.tscn" id="5_tsbnf"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_iki3e")
@@ -13,8 +14,11 @@ script = ExtResource("1_iki3e")
 [node name="Level" parent="." instance=ExtResource("2_4j125")]
 position = Vector2(227, 176)
 
-[node name="Player" parent="." instance=ExtResource("3_ygj57")]
+[node name="Player" parent="." groups=["Player"] instance=ExtResource("3_ygj57")]
 position = Vector2(120, 152)
 
 [node name="GoblinEnemy" parent="." instance=ExtResource("4_vu6id")]
 position = Vector2(259, 184)
+
+[node name="Goblin" parent="." instance=ExtResource("5_tsbnf")]
+position = Vector2(415, 172)
