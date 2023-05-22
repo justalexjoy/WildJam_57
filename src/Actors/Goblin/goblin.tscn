@@ -1,8 +1,8 @@
-[gd_scene load_steps=31 format=3 uid="uid://crrabbc6tu3s3"]
+[gd_scene load_steps=31 format=3 uid="uid://c1nsc17qrfjpp"]
 
 [ext_resource type="Script" path="res://src/Actors/Goblin/Goblin.gd" id="1_iastd"]
+[ext_resource type="PackedScene" uid="uid://coe0q4e7gy1s6" path="res://src/Actors/Weapoons/Knife3.tscn" id="2_8m3uf"]
 [ext_resource type="Texture2D" uid="uid://4w4qvi1jte2u" path="res://assets/Enemies/Goblin/Attack.png" id="2_cq683"]
-[ext_resource type="PackedScene" uid="uid://q1y06p2fhkni" path="res://src/Actors/Goblin/knife.tscn" id="2_lac2j"]
 [ext_resource type="Texture2D" uid="uid://c2voud0y3d24f" path="res://assets/Enemies/Goblin/Run.png" id="2_u5uuq"]
 [ext_resource type="Texture2D" uid="uid://c655aumt2wthl" path="res://assets/Enemies/Goblin/Idle.png" id="3_8usah"]
 [ext_resource type="Script" path="res://src/Actors/Damageable.gd" id="6_ww7qd"]
@@ -177,7 +177,7 @@ radius = 116.004
 [node name="Goblin" type="CharacterBody2D"]
 collision_layer = 4
 script = ExtResource("1_iastd")
-knife_scene = ExtResource("2_lac2j")
+knife_scene = ExtResource("2_8m3uf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 7.5)

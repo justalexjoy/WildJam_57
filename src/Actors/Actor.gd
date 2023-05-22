@@ -1,5 +1,7 @@
-class_name Actor
 extends CharacterBody2D
+
+class_name Actor
+
 
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.

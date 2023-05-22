@@ -8,13 +8,12 @@ size = Vector2(733.333, 200)
 
 [node name="knife" type="Area2D"]
 scale = Vector2(0.03, 0.03)
-collision_layer = 0
+collision_layer = 7
 collision_mask = 7
 script = ExtResource("1_eibpu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(33.3333, 33.3333)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_ny88v")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

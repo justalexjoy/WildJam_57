@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://cmrubcoqblvq7"]
+
+[ext_resource type="Texture2D" uid="uid://cwo2yui8cd7o4" path="res://goblin/pngfind.com-minecraft-iron-sword-png-5961972.png" id="1_ff4qi"]
+[ext_resource type="Script" path="res://src/Actors/GoblinEnemy/knife2.gd" id="1_p2ret"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i0thu"]
+radius = 1.0
+height = 12.0
+
+[node name="knife2" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_p2ret")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(0.0456463, -0.022822)
+scale = Vector2(2.0681, 1.14835)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(4.44089e-16, -8.88178e-16)
+rotation = 2.34295
+scale = Vector2(0.0503552, 0.0503552)
+texture = ExtResource("1_ff4qi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.57698
+scale = Vector2(2.75824, 2.75824)
+shape = SubResource("CapsuleShape2D_i0thu")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]

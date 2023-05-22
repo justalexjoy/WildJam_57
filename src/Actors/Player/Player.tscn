@@ -1,6 +1,7 @@
 [gd_scene load_steps=76 format=3 uid="uid://c28fw1ur73dgr"]
 
 [ext_resource type="Texture2D" uid="uid://caen6avagq58v" path="res://assets/Player/attack/adventurer-attack3-00.png" id="1_7hkme"]
+[ext_resource type="Script" path="res://src/Actors/Player/Player.gd" id="1_l2ndt"]
 [ext_resource type="Texture2D" uid="uid://75jgupkmgs5y" path="res://assets/Player/attack/adventurer-attack3-01.png" id="2_mnbn8"]
 [ext_resource type="Texture2D" uid="uid://wjvc0a5q58sm" path="res://assets/Player/attack/adventurer-attack3-02.png" id="3_tpyys"]
 [ext_resource type="Texture2D" uid="uid://ddx0jtha6kpih" path="res://assets/Player/attack/adventurer-attack3-03.png" id="4_m7bui"]
@@ -43,93 +44,6 @@
 [ext_resource type="Texture2D" uid="uid://di1bgwbrcnoqo" path="res://assets/Player/dead/adventurer-die-04.png" id="33_fb3ol"]
 [ext_resource type="Script" path="res://src/Actors/Damageable.gd" id="33_wovhw"]
 [ext_resource type="Texture2D" uid="uid://bnliui5vlkg3t" path="res://assets/Player/dead/adventurer-die-05.png" id="34_qe3eq"]
-
-[sub_resource type="GDScript" id="GDScript_05plg"]
-script/source = "extends Actor
-
-const SPEED = 350.0
-const JUMP_VELOCITY = -400.0
-const MAX_DASH_NUMBER = 2
-
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-# var gravity = ProjectSettings.get_setting(\"physics/2d/default_gravity\")
-
-@onready var sprite : Sprite2D = $Sprite2D
-@onready var animation_tree : AnimationTree = $AnimationTree
-@onready var state_machine: CharacterStateMachine = $CharacterStateMachine
-
-var _state = CharacterState.STAY
-var _dashCount = 0
-var _direction = 0
-
-var can_move : bool = true
-
-enum CharacterState {
-  WALK,
-  STAY,
-  JUMP,
-  ATTACK
-}
-
-func _ready():
-	animation_tree.active = true
-
-func _physics_process(delta):
-	get_state()
-	get_input()
-
-	var speed = state_machine.get_speed()
-
-	if _direction and state_machine.state.can_move:
-		velocity.x = _direction * speed
-	else:		 
-		velocity.x = move_toward(velocity.x, 0, speed)
-
-	if not is_on_floor():
-		velocity.y += gravity * delta
-
-	animate_state()
-	move_and_slide()
-	check_falling()
-	
-func get_input():
-#	if Input.is_action_just_pressed(\"jump\") and not is_on_floor() and _dashCount > 0:
-#		velocity.y = JUMP_VELOCITY * 0.8 * _dashCount/MAX_DASH_NUMBER
-#		_dashCount -= 1
-		
-	if Input.is_action_just_pressed(\"ui_select\") and is_on_floor():
-		_state = CharacterState.ATTACK
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	_direction = Input.get_axis(\"left\", \"right\")
-
-func get_state():
-	if is_on_floor() and _direction:
-		_state = CharacterState.WALK
-
-	if is_on_floor():
-		_dashCount = MAX_DASH_NUMBER
-
-	if not is_on_floor() and _direction:
-		_state = CharacterState.JUMP
-
-	if not _direction:
-		_state = CharacterState.STAY
-
-func animate_state():
-	animation_tree.set(\"parameters/Move/blend_position\", _direction)
-
-	if _direction != 0:
-		sprite.flip_h = _direction < 0
-
-func check_falling():
-	if global_position.y > 1000:
-		game_over()
-
-func game_over():
-	get_tree().change_scene_to_file(\"res://UI/game_over_layer.tscn\")
-"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_r57uc"]
 animations = [{
@@ -272,6 +186,62 @@ tracks/2/keys = {
 "values": [true, false]
 }
 
+[sub_resource type="Animation" id="Animation_qtsre"]
+resource_name = "dead"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("29_o3512"), ExtResource("30_u32y1"), ExtResource("31_7jh5b"), ExtResource("32_0ua0m"), ExtResource("33_fb3ol"), ExtResource("34_qe3eq"), ExtResource("21_2l43m")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 0, 0, 0, 0, 0]
+}
+
+[sub_resource type="Animation" id="Animation_6apn7"]
+resource_name = "hit"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [ExtResource("26_8x3m6"), ExtResource("27_r75lh"), ExtResource("28_t4dbn")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 0]
+}
+
 [sub_resource type="Animation" id="Animation_7ynim"]
 resource_name = "idle"
 length = 0.4
@@ -388,62 +358,6 @@ tracks/1/keys = {
 "values": [0, 0, 0, 0, 0, 0]
 }
 
-[sub_resource type="Animation" id="Animation_6apn7"]
-resource_name = "hit"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [ExtResource("26_8x3m6"), ExtResource("27_r75lh"), ExtResource("28_t4dbn")]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [0, 0]
-}
-
-[sub_resource type="Animation" id="Animation_qtsre"]
-resource_name = "dead"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("29_o3512"), ExtResource("30_u32y1"), ExtResource("31_7jh5b"), ExtResource("32_0ua0m"), ExtResource("33_fb3ol"), ExtResource("34_qe3eq"), ExtResource("21_2l43m")]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 0, 0, 0, 0, 0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1tq5i"]
 _data = {
 "RESET": SubResource("Animation_5go4d"),
@@ -523,7 +437,7 @@ states/player_dead/position = Vector2(715.719, 99.8122)
 states/roll/node = SubResource("AnimationNodeAnimation_ogu25")
 states/roll/position = Vector2(505.155, 3.59)
 transitions = ["Start", "Move", SubResource("AnimationNodeStateMachineTransition_xviug"), "Move", "jump", SubResource("AnimationNodeStateMachineTransition_brt6h"), "jump", "roll", SubResource("AnimationNodeStateMachineTransition_6jds6"), "roll", "Move", SubResource("AnimationNodeStateMachineTransition_kgd7v"), "Move", "attack", SubResource("AnimationNodeStateMachineTransition_76x4v"), "attack", "Move", SubResource("AnimationNodeStateMachineTransition_wvnad"), "Move", "hit", SubResource("AnimationNodeStateMachineTransition_elwhy"), "hit", "player_dead", SubResource("AnimationNodeStateMachineTransition_xqu7r")]
-graph_offset = Vector2(126.72, 2.37429)
+graph_offset = Vector2(13.005, -24.4232)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_8rpvr"]
 
@@ -533,7 +447,7 @@ height = 96.0
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
-script = SubResource("GDScript_05plg")
+script = ExtResource("1_l2ndt")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false
@@ -583,10 +497,11 @@ script = ExtResource("28_lsqtn")
 ground_state = NodePath("../Ground")
 can_move = false
 
-[node name="Hitted" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("damagable", "charackter_state_machine", "dead_state")]
+[node name="Hitted" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("damagable", "charackter_state_machine", "default_state", "dead_state")]
 script = ExtResource("29_dspng")
 damagable = NodePath("../../Damageable")
 charackter_state_machine = NodePath("..")
+default_state = NodePath("../Ground")
 dead_state = NodePath("../Dead")
 dead_animation_node = "player_dead"
 
@@ -621,5 +536,6 @@ position = Vector2(2, -38)
 script = ExtResource("33_wovhw")
 
 [connection signal="animation_finished" from="AnimationTree" to="CharacterStateMachine/Attack" method="_on_animation_tree_animation_finished"]
+[connection signal="animation_finished" from="AnimationTree" to="CharacterStateMachine/Hitted" method="_on_animation_tree_animation_finished"]
 [connection signal="animation_finished" from="AnimationTree" to="CharacterStateMachine/Dead" method="_on_animation_tree_animation_finished"]
 [connection signal="body_entered" from="Sword" to="Sword" method="_on_body_entered"]

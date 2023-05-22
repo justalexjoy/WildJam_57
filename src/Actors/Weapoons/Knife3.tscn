@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://coe0q4e7gy1s6"]
+
+[ext_resource type="Script" path="res://src/Actors/Weapoons/Knife3.gd" id="1_xtqae"]
+[ext_resource type="Texture2D" uid="uid://cwo2yui8cd7o4" path="res://goblin/pngfind.com-minecraft-iron-sword-png-5961972.png" id="2_a77a8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jqr26"]
+size = Vector2(21, 7)
+
+[node name="Knife3" type="Area2D"]
+collision_layer = 2
+collision_mask = 7
+script = ExtResource("1_xtqae")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, -1.5)
+rotation = 0.000497708
+shape = SubResource("RectangleShape2D_jqr26")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 2.34452
+scale = Vector2(0.04158, 0.0415801)
+texture = ExtResource("2_a77a8")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

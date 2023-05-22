@@ -74,9 +74,7 @@ func _physics_process(delta):
 	move_and_slide()
 
 func throw_knife():
-	var bullet: Node2D = knife_scene.instantiate()
-	get_tree().current_scene.add_child(bullet)
-	bullet.global_position = global_position
+	var bullet: Node2D = make_knife()
 	
 	var player = get_tree().get_root().get_node("Game").get_node("Player")
 	
@@ -90,6 +88,25 @@ func throw_knife():
 #	if is_moving_left == false:
 #		bullet.global_rotation = PI
 
+func make_knife() -> Node2D:
+	var bullet: Area2D = knife_scene.instantiate()
+	
+	var current_scene = get_tree().current_scene
+	var parent_scene = current_scene.get_parent()
+	
+	get_tree().current_scene
+	
+	"Level"
+	
+	print(get_parent())
+	print(current_scene.name)
+	print(parent_scene.name)
+	
+	parent_scene.add_child(bullet)
+	bullet.global_position = global_position
+	
+	return bullet
+	
 func _on_detector_body_entered(body):
 	if body.is_in_group("Player"):
 		state = ATTACK_MODE
