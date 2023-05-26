@@ -391,14 +391,14 @@ blend_mode = 1
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_cyv6g"]
 animation = &"attack"
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ckjem"]
+animation = &"dead"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_7bu70"]
 animation = &"hit"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fsejj"]
 animation = &"jump"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_40yq3"]
-animation = &"dead"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ogu25"]
 animation = &"roll"
@@ -421,23 +421,23 @@ switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_elwhy"]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xqu7r"]
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dvcxi"]
 
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_jcyb0"]
 states/Move/node = SubResource("AnimationNodeBlendSpace1D_8hfdj")
 states/Move/position = Vector2(363.4, 99.6244)
 states/attack/node = SubResource("AnimationNodeAnimation_cyv6g")
 states/attack/position = Vector2(363.214, 195.656)
+states/dead/node = SubResource("AnimationNodeAnimation_ckjem")
+states/dead/position = Vector2(681.63, 100.328)
 states/hit/node = SubResource("AnimationNodeAnimation_7bu70")
 states/hit/position = Vector2(551.719, 100.656)
 states/jump/node = SubResource("AnimationNodeAnimation_fsejj")
 states/jump/position = Vector2(363.027, 3.84)
-states/player_dead/node = SubResource("AnimationNodeAnimation_40yq3")
-states/player_dead/position = Vector2(715.719, 99.8122)
 states/roll/node = SubResource("AnimationNodeAnimation_ogu25")
 states/roll/position = Vector2(505.155, 3.59)
-transitions = ["Start", "Move", SubResource("AnimationNodeStateMachineTransition_xviug"), "Move", "jump", SubResource("AnimationNodeStateMachineTransition_brt6h"), "jump", "roll", SubResource("AnimationNodeStateMachineTransition_6jds6"), "roll", "Move", SubResource("AnimationNodeStateMachineTransition_kgd7v"), "Move", "attack", SubResource("AnimationNodeStateMachineTransition_76x4v"), "attack", "Move", SubResource("AnimationNodeStateMachineTransition_wvnad"), "Move", "hit", SubResource("AnimationNodeStateMachineTransition_elwhy"), "hit", "player_dead", SubResource("AnimationNodeStateMachineTransition_xqu7r")]
-graph_offset = Vector2(13.005, -24.4232)
+transitions = ["Start", "Move", SubResource("AnimationNodeStateMachineTransition_xviug"), "Move", "jump", SubResource("AnimationNodeStateMachineTransition_brt6h"), "jump", "roll", SubResource("AnimationNodeStateMachineTransition_6jds6"), "roll", "Move", SubResource("AnimationNodeStateMachineTransition_kgd7v"), "Move", "attack", SubResource("AnimationNodeStateMachineTransition_76x4v"), "attack", "Move", SubResource("AnimationNodeStateMachineTransition_wvnad"), "Move", "hit", SubResource("AnimationNodeStateMachineTransition_elwhy"), "hit", "dead", SubResource("AnimationNodeStateMachineTransition_dvcxi")]
+graph_offset = Vector2(96.63, -6.55819)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_8rpvr"]
 
@@ -503,10 +503,10 @@ damagable = NodePath("../../Damageable")
 charackter_state_machine = NodePath("..")
 default_state = NodePath("../Ground")
 dead_state = NodePath("../Dead")
-dead_animation_node = "player_dead"
 
 [node name="Dead" type="Node" parent="CharacterStateMachine"]
 script = ExtResource("30_v3mcq")
+can_move = false
 
 [node name="StateDebug" type="Label" parent="." node_paths=PackedStringArray("state_machine")]
 offset_left = -43.0
@@ -531,6 +531,7 @@ one_way_collision_margin = 0.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(2, -38)
+zoom = Vector2(3, 3)
 
 [node name="Damageable" type="Node" parent="."]
 script = ExtResource("33_wovhw")

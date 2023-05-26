@@ -1,38 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://bgpsp4orum7ux"]
+[gd_scene load_steps=3 format=3 uid="uid://d0003iaigurpf"]
 
 [ext_resource type="Script" path="res://src/Main/Game.gd" id="1_iki3e"]
-[ext_resource type="PackedScene" uid="uid://dmdqxfmh1ad7" path="res://src/Level/Level.tscn" id="2_4j125"]
-[ext_resource type="PackedScene" uid="uid://c28fw1ur73dgr" path="res://src/Actors/Player/Player.tscn" id="3_ygj57"]
-[ext_resource type="PackedScene" uid="uid://dt1nhsxv5aj7b" path="res://src/Actors/GoblinEnemy/GoblinEnemy.tscn" id="4_vu6id"]
-[ext_resource type="PackedScene" uid="uid://c1nsc17qrfjpp" path="res://src/Actors/Goblin/goblin.tscn" id="5_tsbnf"]
-[ext_resource type="PackedScene" uid="uid://q1y06p2fhkni" path="res://src/Actors/Goblin/knife.tscn" id="6_2gq06"]
-[ext_resource type="PackedScene" uid="uid://cmrubcoqblvq7" path="res://src/Actors/GoblinEnemy/knife2.tscn" id="7_4y6s4"]
-[ext_resource type="PackedScene" uid="uid://coe0q4e7gy1s6" path="res://src/Actors/Weapoons/Knife3.tscn" id="8_ljdo0"]
+[ext_resource type="PackedScene" uid="uid://oyt5x7u6xe84" path="res://src/Levels/Level01/Level01.tscn" id="2_3oll3"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_iki3e")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Level" parent="." instance=ExtResource("2_4j125")]
-position = Vector2(227, 176)
-
-[node name="Player" parent="." groups=["Player"] instance=ExtResource("3_ygj57")]
-position = Vector2(120, 152)
-
-[node name="GoblinEnemy" parent="." instance=ExtResource("4_vu6id")]
-position = Vector2(259, 184)
-
-[node name="Goblin" parent="." instance=ExtResource("5_tsbnf")]
-position = Vector2(415, 172)
-
-[node name="knife" parent="." instance=ExtResource("6_2gq06")]
-position = Vector2(27, 183)
-rotation = -0.0221679
-speed = 100
-
-[node name="knife2" parent="." instance=ExtResource("7_4y6s4")]
-position = Vector2(-6, 95)
-speed = 12
-
-[node name="Temp" parent="." instance=ExtResource("8_ljdo0")]
+[node name="Level01" parent="." instance=ExtResource("2_3oll3")]
+position = Vector2(76, 118)

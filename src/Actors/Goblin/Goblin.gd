@@ -6,6 +6,9 @@ extends CharacterBody2D
 @export var left_corner : float = 50
 
 @onready var body_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var cooldown_timer: Timer = $Cooldown
+
+@onready var player = get_tree().get_root().get_node("Game").get_node("Level01").get_node("Player")
 
 var righttrue_leftfalse : bool = true
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -55,28 +58,25 @@ func _physics_process(delta):
 				
 		
 		ATTACK_MODE:
-			var player = get_tree().get_root().get_node("Game").get_node("Player")
-			
-			$AnimatedSprite2D.flip_h = global_position.x > player.get("global_position").x
-			$AnimatedSprite2D.animation = "ATTACK_MODE"
-			if $Cooldown.is_stopped():
-				$Cooldown.start(2)
+
+			body_sprite.flip_h = global_position.x > player.get("global_position").x
+			body_sprite.animation = "ATTACK_MODE"
+			if cooldown_timer.is_stopped():
+				cooldown_timer.start(2)
 				state = ATTACK
 				kurok = 1
 		
 		ATTACK:
-			$AnimatedSprite2D.animation = "ATTACK"
-			if $AnimatedSprite2D.get_frame() == 7:
+			body_sprite.animation = "ATTACK"
+			if body_sprite.get_frame() == 7:
 				state = ATTACK_MODE
-			if $AnimatedSprite2D.get_frame() == 5 and kurok == 1:
+			if body_sprite.get_frame() == 5 and kurok == 1:
 				throw_knife()
 				kurok = 0
 	move_and_slide()
 
 func throw_knife():
 	var bullet: Node2D = make_knife()
-	
-	var player = get_tree().get_root().get_node("Game").get_node("Player")
 	
 	bullet.rotation = (bullet.position - player.get("global_position")).angle() + PI
 	if global_position.x > player.get("global_position").x:
@@ -95,9 +95,7 @@ func make_knife() -> Node2D:
 	var parent_scene = current_scene.get_parent()
 	
 	get_tree().current_scene
-	
-	"Level"
-	
+
 	print(get_parent())
 	print(current_scene.name)
 	print(parent_scene.name)

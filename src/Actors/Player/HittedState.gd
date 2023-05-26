@@ -19,7 +19,6 @@ func on_damagable_hit(node: Node, damage: int):
 		emit_signal("interrupt_state", self)
 		playback.travel("hit")
 	else:
-		next_state = dead_state
 		emit_signal("interrupt_state", dead_state)
 		playback.travel(dead_animation_node)
 

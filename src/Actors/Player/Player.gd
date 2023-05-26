@@ -81,7 +81,8 @@ func animate_state():
 
 func check_falling():
 	if global_position.y > 1000:
-		game_over()
+		var damageable: Damageable = get_node("Damageable")
+		damageable.hit(100)
 
 func game_over():
-	get_tree().change_scene_to_file("res://UI/game_over_layer.tscn")
+	get_tree().change_scene_to_file("res://UI/GameOver2.tscn")
