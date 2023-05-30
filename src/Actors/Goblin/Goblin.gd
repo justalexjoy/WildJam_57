@@ -4,11 +4,12 @@ extends CharacterBody2D
 @export var goblin_speed : float = 50
 @export var right_corner : float = 50
 @export var left_corner : float = 50
+@export var cooldown_time: float = 2
+
+@export var player: PlayerCharacter
 
 @onready var body_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var cooldown_timer: Timer = $Cooldown
-
-@onready var player = get_tree().get_root().get_node("Game").get_node("Level01").get_node("Player")
 
 var righttrue_leftfalse : bool = true
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -58,11 +59,11 @@ func _physics_process(delta):
 				
 		
 		ATTACK_MODE:
-
+ 
 			body_sprite.flip_h = global_position.x > player.get("global_position").x
 			body_sprite.animation = "ATTACK_MODE"
 			if cooldown_timer.is_stopped():
-				cooldown_timer.start(2)
+				cooldown_timer.start(cooldown_time)
 				state = ATTACK
 				kurok = 1
 		
